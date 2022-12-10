@@ -3,7 +3,7 @@
  This is a function to calculate index NDVI of provided sentinel image
 
  To call this function on GEE use:
- var ndviFunc = require('users/rajpaul83/NDVIS2.js')
+ var ndviFunc = require('users/rajpaul83/TestGEEImport:NDVIS2.js')
 */
 function maskS2clouds(image) {
     var qa = image.select('QA60');
