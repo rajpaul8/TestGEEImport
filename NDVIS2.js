@@ -20,13 +20,13 @@ function maskS2clouds(image) {
   }
 
 // Exporting NDVI function which accepts 3 args... S2ImageCollection, fromDate & toDate and return a collection of NDVI Images 
-exports.NDVI = function(S2_Image, fromDate, toDate){
-    let filteredS2Image = S2_Image.filterDate(fromDate, toDate)
-    .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE',20))
+exports.NDVIS2Func = function(S2_Image, geometry, fromDate, toDate){
+    var filteredS2Image = S2_Image.filterDate(fromDate, toDate)
+    .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE',20)).filterBounds(geometry).map(function(image){return image.clip(geometry)})
     .map(maskS2clouds);
 
-    let ndviCalc = filteredS2Image.map(function(image){
-        image.normalizedDiffernce(['B8','B4'])});
+    var ndviCalc = filteredS2Image.map(function(image){
+        return image.normalizedDifference(['B8','B4'])});
 
    return ndviCalc;     
 }
